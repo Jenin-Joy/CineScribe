@@ -1,0 +1,18 @@
+{% for i,j in movie %}
+<div class="mycard">
+    <div><img src="{{i.movie_poster.url}}" width="210" alt=""></div>
+    <div>Name :{{i.movie_title}}</div>
+    <div>Release Date:{{i.movie_release_date}}</div>
+    <div>Genre :{{i.genre.genre_name}}</div>
+    <div><div class="des">Description :</div><div class="descon">{{i.movie_description}}</div></div>
+    <div class="links">
+        {% for k in ar %} 
+        {% if k <= j %}
+            <i class="fa-solid fa-star text-warning"></i>
+        {% else %}
+            <i class="fa-solid fa-star star-light"></i>
+        {% endif %} {% endfor %}
+    </div>
+    <div class="links"><a href="{{i.movie_link}}">Tralier</a> | <a href="{% url 'User:rating' i.id %}">Rate</a> | <a href="{% url 'User:viewcrue' i.id %}">Crue</a></div>
+</div>
+{% endfor %}

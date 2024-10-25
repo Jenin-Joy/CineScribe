@@ -1,0 +1,46 @@
+{% extends 'User/Head.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        input[type="text"], [type="email"], [type="submit"] {
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid gray;
+        }
+    </style>
+</head>
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+        <table align="center" cellpadding="10" style="margin-top: 100px;">
+            <tr>
+                <td>Name</td>
+                <td><input type="text" name="txt_name" value="{{user.user_name}}" id=""></td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td><input type="email" name="txt_email" value="{{user.user_email}}" id=""></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input type="submit" value="Update"></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><a href="{% url 'User:changepassword' %}">Change Password</a></td>
+            </tr>
+        </table>
+    </form>
+    {% if msg %}
+    <script>
+        alert('{{msg}}')
+        window.location = "{% url 'User:profile' %}"
+    </script>
+    {% endif %}
+</body>
+</html>
+{% endblock content  %}

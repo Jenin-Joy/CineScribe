@@ -1,0 +1,60 @@
+{% extends 'Guest/Head.html' %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table{
+            margin-top: 130px;
+            margin-right: 50px;
+            color: white;
+        }
+        input[type="email"],[type="password"],[type="submit"],[type="text"]{
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid gray;
+        }
+        body {
+            background-image: url("{% static 'Main/img/deadpool.jpg' %}");
+            background-size: contain;
+        }
+    </style>
+</head>
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+        <table cellpadding="10" align="right">
+            <tr>
+                <td>First Name</td>
+                <td><input type="text" required name="txt_fname" id=""></td>
+            </tr>
+            <tr>
+                <td>Last Name</td>
+                <td><input type="text" required name="txt_lname" id=""></td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td><input type="email" required name="txt_email" id=""></td>
+            </tr>
+            <tr>
+                <td>password</td>
+                <td><input type="password" required name="txt_password" id=""></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input type="submit" value="Add"></td>
+            </tr>
+        </table>
+    </form>
+    {% if msg %}
+    <script>
+        alert("{{msg}}")
+        window.location="{% url 'Guest:user' %}"
+    </script>
+    {% endif %}
+</body>
+</html>
+{% endblock content %}

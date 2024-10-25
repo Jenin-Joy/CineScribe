@@ -1,0 +1,77 @@
+{% extends 'Admin/Head.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        input[type="text"],textarea,select,[type="url"],[type="date"] {
+            padding: 10px;
+            border-radius: 10px;
+            border:1px solid gray;
+            width: 100%;
+        }
+        input[type="submit"] {
+            padding: 10px;
+            border-radius: 10px;
+            border:1px solid gray;
+        }
+    </style>
+</head>
+<body>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table align="center" cellpadding="10">
+            <tr>
+                <td>Name</td>
+                <td><input type="text" name="txt_name" id=""></td>
+            </tr>
+            <tr>
+                <td>Photo</td>
+                <td><input type="file" name="txt_photo" id=""></td>
+            </tr>
+            <tr>
+                <td>Type</td>
+                <td>
+                    <select name="sel_type" id="">
+                        <option value="">...Select...</option>
+                        {% for i in cruetype %}
+                        <option value="{{i.id}}">{{i.cruetype_name}}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input type="submit" value="Add"></td>
+            </tr>
+        </table>
+    </form>
+    <table cellpadding="10" class="table table-hover">
+        <tr>
+            <td>#</td>
+            <td>Name</td>
+            <td>Photo</td>
+            <td>Type</td>
+            <td>Action</td>
+        </tr>
+        {% for i in crue %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.crue_name}}</td>
+            <td><img src="{{i.crue_photo.url}}" width="80" alt=""></td>
+            <td>{{i.cruetype.cruetype_name}}</td>
+            <td><a href="{% url 'Admin:deletecrue' i.id %}">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% if msg %}
+    <script>
+        alert("{{msg}}")
+        window.location="{% url 'Admin:crue' id %}"
+    </script>
+    {% endif %}
+</body>
+</html>
+{% endblock content %}

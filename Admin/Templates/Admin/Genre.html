@@ -1,0 +1,58 @@
+{% extends 'Admin/Head.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        input[type="text"],textarea,select,[type="url"],[type="date"] {
+            padding: 10px;
+            border-radius: 10px;
+            border:1px solid gray;
+            width: 100%;
+        }
+        input[type="submit"] {
+            padding: 10px;
+            border-radius: 10px;
+            border:1px solid gray;
+        }
+    </style>
+</head>
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+        <table align="center" cellpadding="10">
+            <tr>
+                <td>Genre</td>
+                <td><input type="text" name="txt_genre" value="{{genreedit.genre_name}}" id=""></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input type="submit" value="Add"></td>
+            </tr>
+        </table>
+    </form>
+    <table class="table table-hover">
+        <tr>
+            <td>#</td>
+            <td>Genre</td>
+            <td>Action</td>
+        </tr>
+        {% for i in genre %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.genre_name}}</td>
+            <td><a href="{% url 'Admin:deletegenre' i.id %}">Delete</a> | <a href="{% url 'Admin:editgenre' i.id %}">Edit</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% if msg %}
+    <script>
+        alert("{{msg}}")
+        window.location="{% url 'Admin:genre' %}"
+    </script>
+    {% endif %}
+</body>
+</html>
+{% endblock content %}

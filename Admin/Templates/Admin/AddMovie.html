@@ -1,0 +1,95 @@
+{% extends 'Admin/Head.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        input[type="text"],textarea,select,[type="url"],[type="date"] {
+            padding: 10px;
+            border-radius: 10px;
+            border:1px solid gray;
+            width: 100%;
+        }
+        input[type="submit"] {
+            padding: 10px;
+            border-radius: 10px;
+            border:1px solid gray;
+        }
+    </style>
+</head>
+<body>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table align="center" cellpadding="10">
+            <tr>
+                <td>Movie Title</td>
+                <td><input type="text" name="txt_title" id=""></td>
+            </tr>
+            <tr>
+                <td>Movie Poster</td>
+                <td><input type="file" name="txt_poster" id=""></td>
+            </tr>
+            <tr>
+                <td>Movie Description</td>
+                <td><textarea name="txt_description" id="" cols="20" rows="5"></textarea></td>
+            </tr>
+            <tr>
+                <td>Movie Release Date</td>
+                <td><input type="date" name="txt_date" id=""></td>
+            </tr>
+            <tr>
+                <td>Movie Link</td>
+                <td><input type="url" name="txt_link" id=""></td>
+            </tr>
+            <tr>
+                <td>Genre</td>
+                <td>
+                    <select name="sel_genre" id="">
+                        <option value="">...Select...</option>
+                        {% for i in genre %}
+                        <option value="{{i.id}}">{{i.genre_name}}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><input type="submit" value="Add"></td>
+            </tr>
+        </table>
+    </form>
+    <table cellpadding="10" class="table table-hover">
+        <tr>
+            <td>#</td>
+            <td>Name</td>
+            <td>Poster</td>
+            <td>Description</td>
+            <td>Release Date</td>
+            <td>Movie Link</td>
+            <td>Genre</td>
+            <td>Action</td>
+        </tr>
+        {% for i in movie %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.movie_title}}</td>
+            <td><img src="{{i.movie_poster.url}}" width="100" alt=""></td>
+            <td width="500">{{i.movie_description}}</td>
+            <td>{{i.movie_release_date}}</td>
+            <td><a href="{{i.movie_link}}">Watch Trailer</a></td>
+            <td>{{i.genre.genre_name}}</td>
+            <td><a href="{% url 'Admin:deletemovie' i.id %}">Delete</a> | <a href="{% url 'Admin:crue' i.id %}">Add Crue</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% if msg %}
+    <script>
+        alert("{{msg}}")
+        window.location="{% url 'Admin:movie' %}"
+    </script>
+    {% endif %}
+</body>
+</html>
+{% endblock content %}

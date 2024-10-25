@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .text-warning {
+            color: orange;
+        }
+        .card {
+            padding: 20px;
+            box-shadow: 0 0 10px gray;
+            border-radius: 20px;
+            max-width: 248px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap:4px;
+        }
+        .main {
+        margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+        .des {
+            margin-top: 5px;
+        }
+        .descon {
+            margin-top: 5px;
+            margin-bottom: 10px;
+            overflow-y: auto;
+            height: 100px;
+        }
+        .links {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            width: 100%;
+            gap: 1rem;
+        }
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .descon::-webkit-scrollbar {
+        display: none;
+        }
+
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .descon {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+        }
+        img {
+            border-radius: 10px;
+        }
+        input[type="text"] {
+            padding:10px;
+            border-radius: 10px;
+            border: 1px solid gray;
+        }
+    </style>
+</head>
+<body>
+    <table align="center" cellpadding="10">
+        <tr>
+            <td>Movie Name</td>
+            <td><input type="text" name="txt_name" id="txt_name" onkeyup="searchMovie(this.value)"></td>
+        </tr>
+    </table>
+    <div class="main" id="result">
+        {% for i,j in movie %}
+        <div class="card">
+            <div><img src="{{i.movie_poster.url}}" width="250" alt=""></div>
+            <div>Name :{{i.movie_title}}</div>
+            <div>Release Date:{{i.movie_release_date}}</div>
+            <div>Genre :{{i.genre.genre_name}}</div>
+            <div><div class="des">Description :</div><div class="descon">{{i.movie_description}}</div></div>
+            <div class="links">
+                {% for k in ar %} 
+                {% if k <= j %}
+                    <i class="fa-solid fa-star text-warning"></i>
+                {% else %}
+                    <i class="fa-solid fa-star star-light"></i>
+                {% endif %} {% endfor %}
+            </div>
+            <div class="links"><a href="{{i.movie_link}}">Tralier</a> | <a href="{% url 'User:rating' i.id %}">Rate</a> | <a href="{% url 'User:viewcrue' i.id %}">Crue</a></div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    function searchMovie(mname) {
+        // alert("hai")
+        var ur = "{% url 'User:searchmovie' %}"
+        $.ajax({
+            url: ur,
+            data: { mname: mname, },
+            success: function (data) {
+                $("#result").html(data);
+            },
+        });
+    }
+</script>
